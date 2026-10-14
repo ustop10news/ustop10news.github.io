@@ -23,6 +23,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Unpack image bundle
+        run: |
+          rm -rf assets && mkdir assets
+          python3 -c "import json,base64;[open('assets/'+k,'wb').write(base64.b64decode(v)) for k,v in json.load(open('assets.bundle.json')).items()]"
+          rm -rf assets.bundle.json .github README.md
+          ls -la assets
       - name: Configure Pages
         uses: actions/configure-pages@v5
         with:
